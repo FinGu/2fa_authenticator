@@ -6,12 +6,6 @@ export default {
                 CopiedToClipboard: 'Copied the token to the clipboard!'
             }
         },
-        Notes:{
-            Name: 'Notes',
-        },
-        Passwords:{
-            Name: 'Passwords',
-        },
         Home:{
             Name: 'Home'
         },
@@ -22,6 +16,13 @@ export default {
             Name: 'AddAuthenticator',
             Texts: {
                 AddButton: 'Add authenticator'
+            }
+        },
+        QRCode: {
+            Name: 'QRCode',
+            Texts: {
+                BadCode: 'Scanned QR code isn\'t of a 2FA',
+                InvalidSecret: 'Scanned code doesn\'t have a valid secret'
             }
         },
         ManageAuthenticator:{

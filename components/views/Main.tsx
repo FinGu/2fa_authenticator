@@ -1,10 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
-import DrawerNavigator from '../DrawerNavigator';
+import DrawerController from '../../controllers/DrawerController';
 
 const Main = () => {
   return (
     <NavigationContainer>
-        <DrawerNavigator />
+        <DrawerController />
     </NavigationContainer>
   );
 }

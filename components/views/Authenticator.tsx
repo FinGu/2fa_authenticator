@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Image,
   FlatList,
   StyleSheet,
   Text,
@@ -11,6 +10,8 @@ import {
 } from 'react-native';
 
 import Svg, { Circle } from 'react-native-svg';
+
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const SyncdCircle = ({time_remaining}: {
   time_remaining: number
@@ -59,14 +60,10 @@ const Item = ({edit_on_press, token_on_press, syncdcircle, name, token}: {
         </TouchableWithoutFeedback>
 
         <Pressable onPress={edit_on_press}>
-          <Image
-            source={require('../../assets/edit.png')} 
-            style={styles.edit}
-          />
+          <Icon name="square-edit-outline" size={20} style={styles.edit} />
         </Pressable>
       </View>
-    </View>
-        )
+    </View>)
 };
 
 const Authenticator = ({ data, time_remaining, token_on_press, edit_item_on_press}: {
@@ -77,6 +74,10 @@ const Authenticator = ({ data, time_remaining, token_on_press, edit_item_on_pres
     edit_item_on_press: (name: string) => void 
 }) => {
   const circle = (<SyncdCircle time_remaining={time_remaining}></SyncdCircle>)
+
+  if(data.length === 0){
+    return <View style={styles.initial_text_view}><Text>Add your first 2FA code by clicking on the +</Text></View>
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.scroll_container}>
@@ -114,8 +115,7 @@ const styles = StyleSheet.create({
     marginRight: 120
   },
   edit: {
-    width: 20,
-    height: 20,
+    marginTop: 2,
     justifyContent: 'flex-end',
   },
   nameAndTimerRow: {
@@ -134,6 +134,12 @@ const styles = StyleSheet.create({
     marginRight: 5,
     // Adjust styling as needed
   },
+  initial_text_view:{
+      flex: 1, 
+      alignItems: 'center',
+      justifyContent: 'center', 
+      marginBottom: 100
+  }
 });
 
 export default Authenticator;

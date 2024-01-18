@@ -41,7 +41,7 @@ const EditAuthenticatorController = ({route}: {
     }, [orig_name])
 
     return <ManageAuthenticator 
-        edit_remove_old_data={oldData}
+        data_to_be_displayed={oldData}
         on_press_edit_remove={(new_data, is_delete) => onPressSaveRemove(navigation, orig_name, new_data, is_delete)} />
 };
 

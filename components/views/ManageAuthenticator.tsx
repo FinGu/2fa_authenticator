@@ -5,8 +5,8 @@ import Constants from '../../Constants';
 
 import {authenticator_secret} from '../../models/authenticator';
 
-const ManageAuthenticator = ({ edit_remove_old_data, on_press_add, on_press_edit_remove}: { 
-  edit_remove_old_data?: authenticator_secret,
+const ManageAuthenticator = ({ data_to_be_displayed, on_press_add, on_press_edit_remove}: { 
+  data_to_be_displayed?: authenticator_secret,
   on_press_add?: (data: authenticator_secret) => Promise<void>,
   on_press_edit_remove?: (new_data: authenticator_secret, is_delete: boolean) => Promise<void>,
 }) => {
@@ -14,15 +14,20 @@ const ManageAuthenticator = ({ edit_remove_old_data, on_press_add, on_press_edit
 
   const [secret, onChangeSecret] = useState('')
 
+  const clear_data = () => {
+      onChangeNickName('')
+      onChangeSecret('')
+  }
+
   useEffect(() => {
-      if(!edit_remove_old_data){
+      if(!data_to_be_displayed){
         return
       }
 
-      onChangeNickName(edit_remove_old_data.name)
-      onChangeSecret(edit_remove_old_data.secret)
+      onChangeNickName(data_to_be_displayed.name)
+      onChangeSecret(data_to_be_displayed.secret)
 
-  }, [edit_remove_old_data])
+  }, [data_to_be_displayed])
   
   return (
       <View>
@@ -30,7 +35,7 @@ const ManageAuthenticator = ({ edit_remove_old_data, on_press_add, on_press_edit
 
           <TextInput style={styles.input} placeholder="Secret" onChangeText={onChangeSecret} defaultValue={secret}/>
           
-          {edit_remove_old_data ? 
+          {on_press_edit_remove ? 
             <View style={styles.button} >
 
               <View style={styles.button}>
@@ -39,11 +44,13 @@ const ManageAuthenticator = ({ edit_remove_old_data, on_press_add, on_press_edit
                         name: nickname,
                         secret: secret
                       }, false)
+                      clear_data()
                     }} title={Constants.Pages.ManageAuthenticator.Texts.SaveButton} />
                 </View>
 
               <Button onPress={() => {
                 on_press_edit_remove!({} as authenticator_secret, true)
+                clear_data()
               }} title={Constants.Pages.ManageAuthenticator.Texts.RemoveButton} />
 
             </View>
@@ -54,6 +61,7 @@ const ManageAuthenticator = ({ edit_remove_old_data, on_press_add, on_press_edit
                       name: nickname,
                       secret: secret
                   })
+                  clear_data()
               }} title={Constants.Pages.AddAuthenticator.Texts.AddButton} />
             </View> 
         }

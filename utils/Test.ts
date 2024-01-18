@@ -1,8 +1,8 @@
 
-export const is_b32 = (test: string): boolean => {
+export const is_b32 = (str: string): boolean => {
     let b32_regex = /^[A-Z2-7]+=*$/;
 
-    if(test.length % 8 !== 0 || !b32_regex.exec(test)){
+    if(str.length % 8 !== 0 || !b32_regex.test(str)){
         return false
     }
     

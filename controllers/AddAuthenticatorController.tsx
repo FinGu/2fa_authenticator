@@ -22,10 +22,14 @@ const onPressAdd = async (navigation: any, secret_obj: authenticator_secret) => 
     navigation.goBack()
 }
 
-const AddAuthenticatorController = () => {
+const AddAuthenticatorController = ({ route }: {
+    route: any
+}) => {
     const navigation = useNavigation()
 
-    return <ManageAuthenticator on_press_add={data => onPressAdd(navigation, data)} />
+    const qr_code_data = (route.params === undefined) ? undefined : route.params.qr_code_data
+
+    return <ManageAuthenticator on_press_add={data => onPressAdd(navigation, data)} data_to_be_displayed={qr_code_data} />
 };
 
 export default AddAuthenticatorController;

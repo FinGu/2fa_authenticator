@@ -12,10 +12,9 @@ To compile
 Supports 
 - Adding and managing secrets and getting timed tokens
 - Copying those to clipboard
-- Basic settings
+- Basic settings and QR code scanning
 
 Missing and planned
-- Adding secrets using QR codes
 - Importing and exporting data in JSON format
 - Dark mode
 

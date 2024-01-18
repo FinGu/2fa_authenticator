@@ -1,9 +1,9 @@
 import { is_b32 } from '../utils/Test';
 
 import { Authenticator } from '@otplib/core';
-import { keyDecoder, keyEncoder } from '@otplib/plugin-base32-enc-dec';
+import { keyDecoder, keyEncoder } from '@otplib/plugin-thirty-two';
 
-import { createDigest, createRandomBytes }from '@otplib/plugin-crypto-js';
+import { createDigest, createRandomBytes } from '@otplib/plugin-crypto-js';
 
 const authenticator = new Authenticator({
     createDigest,
