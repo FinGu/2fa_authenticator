@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
+import { Button, StyleSheet, View} from 'react-native';
 
 import SettingsList from 'react-native-settings-list';
-import Prompt from '../Prompt';
+import {StringPrompt, RadioPrompt} from '../Prompt';
 
 import {as_state} from '../../utils/Extract';
 
 import { settings_state, settings_element, settings_section } from '../../details/settings';
+import Constants from '../../Constants';
 
 type on_change_type = ([,setSettings]: as_state<settings_state>, sname: string, value: boolean | string) => void
 
 type ISettings = {
     data: settings_section[],
-    on_change: on_change_type
+    on_change: on_change_type,
+    on_press_import: () => Promise<void>,
+    on_press_export: () => Promise<void>
 }
 
 type prompt_state = {
@@ -66,7 +70,37 @@ const displaySection = (
     return [<SettingsList.Header key={section.title} headerText={section.title} />, ...sectionSettings];
 }
 
-const Settings = ({data, on_change}: ISettings) => {
+const ExportImportButtons = ({ on_press_import, on_press_export}: {
+    on_press_import: () => Promise<void>,
+    on_press_export: () => Promise<void>
+}) => {
+    const [visible, setVisible] = useState(false)
+
+    return (
+        <>
+            <View style={styles.export_import}>
+                <Button onPress={() => setVisible(true)} title={Constants.Pages.Settings.Texts.RadioPromptTitle} />
+            </View>
+            <RadioPrompt 
+                visible={visible}
+                title={Constants.Pages.Settings.Texts.RadioPromptTitle}
+                labels={[Constants.Pages.Settings.Texts.ImportRadioLabel, Constants.Pages.Settings.Texts.ExportRadioLabel]}
+                on_close={() => setVisible(false)}
+                on_submit={(num) => {
+                    if(num === 0){
+                        on_press_import()
+                    } else{
+                        on_press_export()
+                    }
+
+                    setVisible(false)
+                }}
+            />
+        </>
+    )
+}
+
+const Settings = ({data, on_change, on_press_export, on_press_import}: ISettings) => {
     const settings_state = useState<settings_state>({})
 
     const [settings] = settings_state
@@ -84,7 +118,10 @@ const Settings = ({data, on_change}: ISettings) => {
                     return displaySection(on_change, settings_state, prompt_state, section)
                 })}
             </SettingsList>
-            <Prompt 
+
+            <ExportImportButtons on_press_export={on_press_export} on_press_import={on_press_import} />
+
+            <StringPrompt 
                 title={prompt_title} 
                 value={settings[prompt_title]} 
                 visible={prompt_title !== ''}
@@ -97,5 +134,12 @@ const Settings = ({data, on_change}: ISettings) => {
         </>
     )
 };
+
+const styles = StyleSheet.create({
+    export_import:{
+        marginBottom: 15,
+    }
+});
+
 
 export default Settings;

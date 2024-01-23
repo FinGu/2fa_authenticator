@@ -1,17 +1,10 @@
 import React from 'react';
-import {
-  View,
-  FlatList,
-  StyleSheet,
-  Text,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Pressable
-} from 'react-native';
+import { View, StyleSheet, Text, ScrollView, TouchableWithoutFeedback, Pressable } from 'react-native';
 
 import Svg, { Circle } from 'react-native-svg';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Constants from '../../Constants';
 
 const SyncdCircle = ({time_remaining}: {
   time_remaining: number
@@ -76,18 +69,18 @@ const Authenticator = ({ data, time_remaining, token_on_press, edit_item_on_pres
   const circle = (<SyncdCircle time_remaining={time_remaining}></SyncdCircle>)
 
   if(data.length === 0){
-    return <View style={styles.initial_text_view}><Text>Add your first 2FA code by clicking on the +</Text></View>
+      return <View style={styles.initial_text_view}><Text>{Constants.Pages.Authenticator.Texts.InitText}</Text></View>
   }
 
   return (
     <ScrollView contentContainerStyle={styles.scroll_container}>
-        <FlatList
-          data={data}
-          renderItem={({item}) => <Item name={item.name} token={item.token} 
-          syncdcircle={circle} 
-          token_on_press={() => token_on_press(item.token)} 
-          edit_on_press={() => edit_item_on_press(item.name)}/>}
-        />
+      {data.map((item, i) => 
+          <Item key={i} 
+                name={item.name} token={item.token} 
+                token_on_press={() => token_on_press(item.token)} 
+                edit_on_press={() => edit_item_on_press(item.name)} 
+                syncdcircle={circle}/>
+      )}
       </ScrollView>
   )
 };

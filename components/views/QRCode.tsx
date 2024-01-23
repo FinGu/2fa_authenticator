@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import Constants from '../../Constants';
 
 const QRCode = ({ on_scanned }: {
   on_scanned: (data: any) => void
@@ -21,7 +22,6 @@ const QRCode = ({ on_scanned }: {
       type: string,
       data: string
   }) => {
-    console.log('abcc')
     setScanned(true);
 
     if(type !== 'org.iso.QRCode'){
@@ -36,11 +36,11 @@ const QRCode = ({ on_scanned }: {
   };
 
   if (hasPermission === null) {
-      return <Text>Requesting for camera permission</Text>;
+      return <Text>{Constants.Pages.QRCode.Texts.RequestPermission}</Text>;
   }
 
   if (hasPermission === false) {
-      return <Text>No access to camera</Text>;
+      return <Text>{Constants.Pages.QRCode.Texts.NoCameraAccess}</Text>;
   }
 
   return (
